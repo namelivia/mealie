@@ -8,9 +8,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: development
     restart: always
     ports:
-      - 9920:8080
+      - 9920:3000
     environment:
       - GLOBAL_MIDDLEWARE=null
       - BASE_URL=""
