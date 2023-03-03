@@ -126,7 +126,7 @@ class AppSettings(BaseSettings):
     # ===============================================
     # JWT AUTH Configuration
 
-    JWT_AUTH_ENABLED: bool = True
+    JWT_AUTH_ENABLED: bool = False
     JWT_AUTH_HEADER_NAME: str = "X-JWT-Assertion"
     JWT_AUTH_USERNAME_CLAIM: str = "sub"
     JWT_AUTH_EMAIL_CLAIM: str = "sub"
