@@ -130,7 +130,7 @@ class AppSettings(BaseSettings):
     JWT_AUTH_HEADER_NAME: str = "X-JWT-Assertion"
     JWT_AUTH_USERNAME_CLAIM: str = "sub"
     JWT_AUTH_EMAIL_CLAIM: str = "sub"
-    JWT_AUTH_AUTO_SIGN_UP: str = "sub"
+    JWT_AUTH_AUTO_SIGN_UP: bool = False
     JWT_AUTH_JWK_SET_URL: str = "https://your-auth-provider.example.com/.well-known/jwks.json"
 
     # ===============================================
