@@ -87,6 +87,18 @@ services:
   #     POSTGRES_PASSWORD: mealie
   #     POSTGRES_USER: mealie
 
+  mealie-auth-proxy:
+    image: pomerium/pomerium:v0.11.0-rc1
+    container_name: auth_proxy
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "443:443"
+    volumes:
+      - ./auth-proxy/config.yaml:/pomerium/config.yaml
+      - ./auth-proxy/certs/localhost.crt:/pomerium/cert.pem:ro
+      - ./auth-proxy/certs/localhost.key:/pomerium/privkey.pem:ro
+
 volumes:
   mealie-data:
     driver: local
