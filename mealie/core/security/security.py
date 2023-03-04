@@ -167,6 +167,7 @@ def user_from_ldap(db: AllRepositories, username: str, password: str) -> Private
     return user
 
 
+<<<<<<< HEAD
 def _create_new_jwt_user(db: AllRepositories, claims: dict) -> PrivateUser:
     settings = get_app_settings()
     return db.users.create(
@@ -182,6 +183,13 @@ def _create_new_jwt_user(db: AllRepositories, claims: dict) -> PrivateUser:
 
 
 def authenticate_user(session, email: str, password: str, jwt_assertion: str | None = None) -> PrivateUser | bool:
+=======
+def _authenticate_jwt_user(jwt_assertion: str) -> PrivateUser | bool:
+    jwt_claims = decode_jwt_assertion(jwt_assertion)
+    print(f"Decoded token claims: {jwt_claims}")
+
+
+def authenticate_user(session, email: str, password: str, jwt_assertion: str = None) -> PrivateUser | bool:
     settings = get_app_settings()
 
     db = get_repositories(session)

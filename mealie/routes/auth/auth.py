@@ -9,6 +9,7 @@ from sqlalchemy.orm.session import Session
 from mealie.core import root_logger, security
 from mealie.core.config import get_app_settings
 from mealie.core.dependencies import get_current_user
+from mealie.core.config import get_app_settings
 from mealie.core.security import authenticate_user
 from mealie.core.security.security import UserLockedOut
 from mealie.db.db_setup import generate_session
@@ -53,6 +54,10 @@ class MealieAuthToken(BaseModel):
 def get_token(request: Request, data: CustomOAuth2Form = Depends(), session: Session = Depends(generate_session)):
     settings = get_app_settings()
 
+<<<<<<< HEAD
+=======
+    print(f"JWT header name: {settings.JWT_AUTH_HEADER_NAME}")
+>>>>>>> 280dc2db (Add jwt decoding logic)
     jwt_assertion = request.headers.get(settings.JWT_AUTH_HEADER_NAME, None)
     email = data.username
     password = data.password
