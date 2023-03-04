@@ -172,9 +172,9 @@ def authenticate_user(session, email: str, password: str, jwt_assertion: str = N
 
     db = get_repositories(session)
 
-    if settings.JWT_AUTH_ENABLED:
+    if settings.JWT_AUTH_ENABLED and jwt_assertion is not None:
         jwt_claims = get_claims_from_jwt_assertion(jwt_assertion)
-        user = db.users.get_one(jwt_claims["sub"], "email", any_case=True)
+        user = db.users.get_one(jwt_claims[settings.JWT_AUTH_EMAIL_CLAIM], "email", any_case=True)
         return user
 
     user = db.users.get_one(email, "email", any_case=True)

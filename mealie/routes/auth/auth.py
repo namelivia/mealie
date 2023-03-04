@@ -53,7 +53,6 @@ class MealieAuthToken(BaseModel):
 def get_token(request: Request, data: CustomOAuth2Form = Depends(), session: Session = Depends(generate_session)):
     settings = get_app_settings()
 
-    print(f"JWT header name: {settings.JWT_AUTH_HEADER_NAME}")
     jwt_assertion = request.headers.get(settings.JWT_AUTH_HEADER_NAME, None)
     email = data.username
     password = data.password
