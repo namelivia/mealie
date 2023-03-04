@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 
 from mealie.core import root_logger, security
 from mealie.core.dependencies import get_current_user
+from mealie.core.config import get_app_settings
 from mealie.core.security import authenticate_user
 from mealie.core.security.security import UserLockedOut
 from mealie.db.db_setup import generate_session
@@ -50,11 +51,15 @@ class MealieAuthToken(BaseModel):
 
 @public_router.post("/token")
 def get_token(request: Request, data: CustomOAuth2Form = Depends(), session: Session = Depends(generate_session)):
+    settings = get_app_settings()
+
+    print(f"JWT header name: {settings.JWT_AUTH_HEADER_NAME}")
+    jwt_assertion = request.headers.get(settings.JWT_AUTH_HEADER_NAME, None)
     email = data.username
     password = data.password
 
     try:
-        user = authenticate_user(session, email, password)  # type: ignore
+        user = authenticate_user(session, email, password, jwt_assertion)  # type: ignore
     except UserLockedOut as e:
         logger.error(f"User is locked out from {request.client.host}")
         raise HTTPException(status_code=status.HTTP_423_LOCKED, detail="User is locked out") from e
