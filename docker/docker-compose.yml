@@ -79,6 +79,13 @@ services:
       # SMTP_USER=
       # SMTP_PASSWORD=
 
+      # =====================================
+      # JWT Auth Configuration
+      JWT_AUTH_ENABLED: "true"
+      JWT_AUTH_HEADER_NAME: "X-Pomerium-Jwt-Assertion"
+      JWT_AUTH_EMAIL_CLAIM: "sub"
+      JWT_AUTH_JWK_SET_URL: "https://authenticate.localhost.pomerium.io/.well-known/pomerium/jwks.json"
+
   # postgres:
   #   container_name: postgres
   #   image: postgres
