@@ -7,7 +7,7 @@ from jose import jwt
 from mealie.core import root_logger
 from mealie.core.config import get_app_settings
 from mealie.core.security.hasher import get_hasher
-from mealie.core.security.jwt import decode_jwt_assertion
+from mealie.core.security.jwt import get_claims_from_jwt_assertion
 from mealie.db.models.users.users import AuthMethod
 from mealie.repos.all_repositories import get_repositories
 from mealie.repos.repository_factory import AllRepositories
@@ -167,18 +167,15 @@ def user_from_ldap(db: AllRepositories, username: str, password: str) -> Private
     return user
 
 
-def _authenticate_jwt_user(jwt_assertion: str) -> PrivateUser | bool:
-    jwt_claims = decode_jwt_assertion(jwt_assertion)
-    print(f"Decoded token claims: {jwt_claims}")
-
-
 def authenticate_user(session, email: str, password: str, jwt_assertion: str = None) -> PrivateUser | bool:
     settings = get_app_settings()
 
     db = get_repositories(session)
 
     if settings.JWT_AUTH_ENABLED:
-        jwt_claims = _authenticate_jwt_user(jwt_assertion)
+        jwt_claims = get_claims_from_jwt_assertion(jwt_assertion)
+        user = db.users.get_one(jwt_claims["sub"], "email", any_case=True)
+        return user
 
     user = db.users.get_one(email, "email", any_case=True)
 
