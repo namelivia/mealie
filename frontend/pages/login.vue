@@ -58,13 +58,6 @@
               </v-btn>
             </div>
           </v-card-actions>
-          <v-card-actions class="justify-center pt-0">
-            <div class="max-button" v-if="jwtAuthEnabled">
-              <v-btn :loading="loggingIn" color="secondary" large rounded class="rounded-xl" block @click="jwtLogin">
-                {{ $t("user.jwt-login") }}
-              </v-btn>
-            </div>
-          </v-card-actions>
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -153,25 +146,6 @@ export default defineComponent({
     const { passwordIcon, inputType, togglePasswordShow } = usePasswordField();
 
     const allowSignup = computed(() => appInfo.value?.allowSignup || false);
-    const jwtAuthEnabled = computed(() => appInfo.value?.jwtAuthEnabled || false);
-
-    async function jwtLogin() {
-        loggingIn.value = true;
-
-        const formData = new FormData();
-        formData.append("username", "jwt");
-        formData.append("password", "jwt");
-        formData.append("remember_me", "true");
-
-        try {
-          await $auth.loginWith("local", { data: formData });
-        } catch (error) {
-          // TODO Error handling is pending
-          console.log("Error handling is pending");
-          console.log(error);
-        }
-        loggingIn.value = false;
-    }
 
     async function authenticate() {
       if (form.email.length === 0 || form.password.length === 0) {
@@ -210,8 +184,6 @@ export default defineComponent({
       form,
       loggingIn,
       allowSignup,
-      jwtAuthEnabled,
-      jwtLogin,
       authenticate,
       toggleDark,
       passwordIcon,
