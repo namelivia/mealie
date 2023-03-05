@@ -167,6 +167,20 @@ def user_from_ldap(db: AllRepositories, username: str, password: str) -> Private
     return user
 
 
+def _create_new_jwt_user(db: AllRepositories, claims: dict) -> PrivateUser:
+    settings = get_app_settings()
+    return db.users.create(
+        {
+            "full_name": claims[settings.JWT_AUTH_NAME_CLAIM],
+            "username": claims[settings.JWT_AUTH_USERNAME_CLAIM],
+            "email": claims[settings.JWT_AUTH_EMAIL_CLAIM],
+            "password": hash_password(secrets.token_urlsafe(13)),  # 13 char long random password
+            "group": settings.DEFAULT_GROUP,
+            "admin": True,
+        }
+    )
+
+
 def authenticate_user(session, email: str, password: str, jwt_assertion: str = None) -> PrivateUser | bool:
     settings = get_app_settings()
 
@@ -175,6 +189,8 @@ def authenticate_user(session, email: str, password: str, jwt_assertion: str = N
     if settings.JWT_AUTH_ENABLED and jwt_assertion is not None:
         jwt_claims = get_claims_from_jwt_assertion(jwt_assertion)
         user = db.users.get_one(jwt_claims[settings.JWT_AUTH_EMAIL_CLAIM], "email", any_case=True)
+        if user is None and settings.JWT_AUTH_AUTO_SIGN_UP:
+            user = _create_new_jwt_user(db, jwt_claims)
         return user
 
     user = db.users.get_one(email, "email", any_case=True)

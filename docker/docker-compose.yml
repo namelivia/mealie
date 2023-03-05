@@ -81,10 +81,13 @@ services:
 
       # =====================================
       # JWT Auth Configuration
-      JWT_AUTH_ENABLED: "true"
-      JWT_AUTH_HEADER_NAME: "X-Pomerium-Jwt-Assertion"
-      JWT_AUTH_EMAIL_CLAIM: "sub"
-      JWT_AUTH_JWK_SET_URL: "https://authenticate.localhost.pomerium.io/.well-known/pomerium/jwks.json"
+      # JWT_AUTH_ENABLED: "true"
+      # JWT_AUTH_HEADER_NAME: "X-Jwt-Assertion"
+      # JWT_AUTH_EMAIL_CLAIM: "your-email-claim"
+      # JWT_AUTH_NAME_CLAIM: "your-name-claim"
+      # JWT_AUTH_USERNAME_CLAIM: "your-username-claim"
+      # JWT_AUTH_AUTO_SIGN_UP: "true"
+      # JWT_AUTH_JWK_SET_URL: "https://your-authentication.endpoint.com/.well-known/jwks.json"
 
   # postgres:
   #   container_name: postgres
@@ -94,17 +97,23 @@ services:
   #     POSTGRES_PASSWORD: mealie
   #     POSTGRES_USER: mealie
 
-  mealie-auth-proxy:
-    image: pomerium/pomerium:v0.11.0-rc1
-    container_name: auth_proxy
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "443:443"
-    volumes:
-      - ./auth-proxy/config.yaml:/pomerium/config.yaml
-      - ./auth-proxy/certs/localhost.crt:/pomerium/cert.pem:ro
-      - ./auth-proxy/certs/localhost.key:/pomerium/privkey.pem:ro
+  # mealie-auth-proxy:
+  #   image: pomerium/pomerium:v0.21.2
+  #   container_name: auth_proxy
+  #   restart: unless-stopped
+  #   tty: true
+  #   ports:
+  #     - "443:443"
+  #   volumes:
+  #    - ./auth-proxy/config.yaml:/pomerium/config.yaml
+  #    - ./auth-proxy/certs/localhost.crt:/pomerium/cert.pem:ro
+  #    - ./auth-proxy/certs/localhost.key:/pomerium/privkey.pem:ro
+  #   environment:
+  #    IDP_CLIENT_ID: your-idp-client-id
+  #    IDP_CLIENT_SECRET: your-idp-client-secret
+  #    IDP_SERVICE_ACCOUNT: your-idp-service-account
+  #    SHARED_SECRET: your-shared-secret
+  #    COOKIE_SECRET: your-shared-cookie-secret
 
 volumes:
   mealie-data:
