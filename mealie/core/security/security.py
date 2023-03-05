@@ -181,7 +181,7 @@ def _create_new_jwt_user(db: AllRepositories, claims: dict) -> PrivateUser:
     )
 
 
-def authenticate_user(session, email: str, password: str, jwt_assertion: str = None) -> PrivateUser | bool:
+def authenticate_user(session, email: str, password: str, jwt_assertion: str | None = None) -> PrivateUser | bool:
     settings = get_app_settings()
 
     db = get_repositories(session)
