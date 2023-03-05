@@ -1,7 +1,8 @@
-import requests
 import json
-import os
+
+import requests
 from jwcrypto import jwk, jwt
+
 from mealie.core.config import get_app_settings
 
 
