@@ -146,7 +146,7 @@ export default defineComponent({
     const { passwordIcon, inputType, togglePasswordShow } = usePasswordField();
 
     whenever(
-      () => appInfo.value?.jwtAuthEnabled,
+      () => appInfo.value?.jwtAuthEnabled as boolean,
       () => {
         authenticate({sso: true});
       },
