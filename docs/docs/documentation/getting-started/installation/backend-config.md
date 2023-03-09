@@ -75,3 +75,14 @@ Changing the webworker settings may cause unforeseen memory leak issues with Mea
 | LDAP_ID_ATTRIBUTE    |   uid   | The LDAP attribute that maps to the user's id                                                                                       |
 | LDAP_NAME_ATTRIBUTE  |  name   | The LDAP attribute that maps to the user's name                                                                                     |
 | LDAP_MAIL_ATTRIBUTE  |  mail   | The LDAP attribute that maps to the user's email                                                                                    |
+### JWT Authentication
+
+| Variables                | Default                                                        | Description                                                                                                                            |
+| ------------------------ | :------------------------------------------------------------: | -------------------------------------------------------------------------------------------------------------------------------------- |
+| JWT_AUTH_ENABLED         |  False                                                         | Login automatically using a forwarded JWT Header                                                                                       |
+| JWT_AUTH_HEADER_NAME     |  X-JWT-Assertion                                               | Name of the header containing the JWT used for authentication                                                                          |
+| JWT_AUTH_EMAIL_CLAIM     |  email                                                         | Name for the JWT claim to use for retrieving the user's email                                                                          |
+| JWT_AUTH_NAME_CLAIM      |  name                                                          | Name for the JWT claim to use for retrieving the user's name                                                                           |
+| JWT_AUTH_USERNAME_CLAIM  |  user                                                          | Name for the JWT claim to use for retrieving the user's username                                                                       |
+| JWT_AUTH_AUTO_SIGN_UP    |  False                                                         | If enabled user accounts will be created for users logging in for the first time. If not accounts need to be created manually before   |
+| JWT_AUTH_JWK_SET_URL     |  https://your-auth-provider.example.com/.well-known/jwks.json  | URL containing the JWT used to decode the contents of the JWT Header                                                                   |
