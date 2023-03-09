@@ -7,7 +7,7 @@ from jose import jwt
 from mealie.core import root_logger
 from mealie.core.config import get_app_settings
 from mealie.core.security.hasher import get_hasher
-from mealie.core.security.jwt import get_claims_from_jwt_assertion
+from mealie.core.security.jwt_validation import get_claims_from_jwt_assertion
 from mealie.db.models.users.users import AuthMethod
 from mealie.repos.all_repositories import get_repositories
 from mealie.repos.repository_factory import AllRepositories
@@ -187,7 +187,10 @@ def authenticate_user(session, email: str, password: str, jwt_assertion: str | N
     db = get_repositories(session)
 
     if settings.JWT_AUTH_ENABLED and jwt_assertion is not None:
-        jwt_claims = get_claims_from_jwt_assertion(jwt_assertion)
+        try:
+            jwt_claims = get_claims_from_jwt_assertion(jwt_assertion)
+        except Exception:
+            return False
         user = db.users.get_one(jwt_claims[settings.JWT_AUTH_EMAIL_CLAIM], "email", any_case=True)
         if user is None and settings.JWT_AUTH_AUTO_SIGN_UP:
             user = _create_new_jwt_user(db, jwt_claims)

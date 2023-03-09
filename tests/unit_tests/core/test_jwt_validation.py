@@ -3,7 +3,7 @@ from pytest import MonkeyPatch
 import jwcrypto
 
 from mealie.core.config import get_app_settings
-from mealie.core.security.jwt import get_claims_from_jwt_assertion
+from mealie.core.security.jwt_validation import get_claims_from_jwt_assertion
 
 
 class MockResponse:
