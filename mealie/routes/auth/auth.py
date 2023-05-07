@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 
 from mealie.core import root_logger, security
 from mealie.core.config import get_app_settings
+from mealie.core.dependencies import get_current_user
 from mealie.core.security import authenticate_user
 from mealie.core.security.security import UserLockedOut
 from mealie.db.db_setup import generate_session
