@@ -190,6 +190,7 @@ def authenticate_user(session, email: str, password: str, jwt_assertion: str | N
         try:
             jwt_claims = get_claims_from_jwt_assertion(jwt_assertion)
         except Exception:
+            logger.error("[JWT] Unable to decode JWT assertion")
             return False
         user = db.users.get_one(jwt_claims[settings.JWT_AUTH_EMAIL_CLAIM], "email", any_case=True)
         if user is None and settings.JWT_AUTH_AUTO_SIGN_UP:
