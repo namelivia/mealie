@@ -7,7 +7,6 @@ from pydantic import BaseModel
 from sqlalchemy.orm.session import Session
 
 from mealie.core import root_logger, security
-from mealie.core.dependencies import get_current_user
 from mealie.core.config import get_app_settings
 from mealie.core.dependencies import get_current_user
 from mealie.core.security import authenticate_user
