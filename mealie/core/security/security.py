@@ -176,7 +176,7 @@ def _create_new_jwt_user(db: AllRepositories, claims: dict) -> PrivateUser:
             "email": claims[settings.JWT_AUTH_EMAIL_CLAIM],
             "password": hash_password(secrets.token_urlsafe(13)),  # 13 char long random password
             "group": settings.DEFAULT_GROUP,
-            "admin": True,
+            "admin": False,
         }
     )
 
