@@ -260,42 +260,11 @@ def test_user_login_ldap_auth_method(monkeypatch: MonkeyPatch, ldap_user: Privat
 # JWT AUTHENTICATION
 
 
-def _disable_ldap_while_testing(monkeypatch: MonkeyPatch):
-    # This is necessary to avoid the LDAP code from triggering
-    monkeypatch.setenv("LDAP_AUTH_ENABLED", "False")
-
-    user = random_string(10)
-    password = random_string(10)
-
-    class LdapConnMock:
-        def simple_bind_s(self, dn, bind_pw):
-            assert False  # When LDAP is disabled, this method should not be called
-
-        def search_s(self, dn, scope, filter, attrlist):
-            pass
-
-        def set_option(self, option, invalue):
-            pass
-
-        def unbind_s(self):
-            pass
-
-        def start_tls_s(self):
-            pass
-
-    def ldap_initialize_mock(url):
-        assert url == ""
-        return LdapConnMock()
-
-    monkeypatch.setattr(ldap, "initialize", ldap_initialize_mock)
-
-    get_app_settings.cache_clear()
-
-
 def test_jwt_auth_disabled(monkeypatch: MonkeyPatch):
     # JWT is disabled so the jwt auth flow is not executed
     monkeypatch.setenv("JWT_AUTH_ENABLED", "False")
-    _disable_ldap_while_testing(monkeypatch)
+    monkeypatch.setenv("LDAP_AUTH_ENABLED", "False")
+    get_app_settings.cache_clear()
 
     user = random_string(10)
     password = random_string(10)
@@ -306,9 +275,10 @@ def test_jwt_auth_disabled(monkeypatch: MonkeyPatch):
 
 
 def test_jwt_auth_enabled_no_jwt_assertion(monkeypatch: MonkeyPatch):
-    # JWT is enabled but since there is no jwt header the jwt flow is not executed
+    # JWT is enabled but since there is no jwt header the jwt auth flow is not executed
     monkeypatch.setenv("JWT_AUTH_ENABLED", "True")
-    _disable_ldap_while_testing(monkeypatch)
+    monkeypatch.setenv("LDAP_AUTH_ENABLED", "False")
+    get_app_settings.cache_clear()
 
     user = random_string(10)
     password = random_string(10)
