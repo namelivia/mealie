@@ -1,0 +1,29 @@
+# this is the domain the identity provider will callback after a user authenticates
+authenticate_service_url: https://your-authentication.endpoint.com
+autocert: true
+
+idp_provider: your-idp
+jwt_claims_headers:
+  - email
+  - aud
+  - email
+  - email_verified
+  - exp
+  - family_name
+  - given_name
+  - iat
+  - iss
+  - locale
+  - name
+  - picture
+  - sub
+
+signing_key: "your-signing-key"
+
+# https://www.pomerium.io/configuration/#policy
+policy:
+  - from: https://mealie.localhost.pomerium.io
+    to: http://mealie-frontend:3000
+    pass_identity_headers: true
+    allowed_users:
+      - your-user@your-email.com
