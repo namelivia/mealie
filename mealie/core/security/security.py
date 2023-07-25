@@ -11,6 +11,7 @@ from mealie.core.security.hasher import get_hasher
 from mealie.core.security.jwt_validation import get_claims_from_jwt_assertion
 from mealie.db.models.users.users import AuthMethod
 from mealie.repos.all_repositories import get_repositories
+from mealie.repos.repository_factory import AllRepositories
 from mealie.schema.user import PrivateUser
 from mealie.services.user_services.user_service import UserService
 
