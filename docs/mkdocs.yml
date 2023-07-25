@@ -65,6 +65,7 @@ nav:
       - FAQ: "documentation/getting-started/faq.md"
       - API: "documentation/getting-started/api-usage.md"
       - Road Map: "documentation/getting-started/roadmap.md"
+      - Advanced: "documentation/getting-started/installation/advanced.md"
 
       - Installation:
           - Installation Checklist: "documentation/getting-started/installation/installation-checklist.md"
@@ -82,6 +83,7 @@ nav:
           - Reverse Proxy (SWAG): "documentation/community-guide/swag.md"
           - Home Assistant: "documentation/community-guide/home-assistant.md"
           - Bulk Url Import: "documentation/community-guide/bulk-url-import.md"
+          - Import Bookmarklet: "documentation/community-guide/import-recipe-bookmarklet.md"
 
   - API Reference: "api/redoc.md"
 
@@ -95,6 +97,7 @@ nav:
           - Improving Ingredient Parser: "contributors/guides/ingredient-parser.md"
 
   - Change Log:
+      - v1.0.0beta-5: "changelog/v1.0.0beta-5.md"
       - v1.0.0beta-4: "changelog/v1.0.0beta-4.md"
       - v1.0.0beta-3: "changelog/v1.0.0beta-3.md"
       - v1.0.0beta-2: "changelog/v1.0.0beta-2.md"

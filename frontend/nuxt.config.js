@@ -295,10 +295,22 @@ export default {
       },
       changeOrigin: true,
       target: process.env.API_URL || "http://localhost:9000",
+      xfwd: true,
     },
     "/api": {
       changeOrigin: true,
       target: process.env.API_URL || "http://localhost:9000",
+      xfwd: true,
+    },
+    "/docs": {
+      changeOrigin: true,
+      target: process.env.API_URL || "http://localhost:9000",
+      xfwd: true,
+    },
+    "/openapi.json": {
+      changeOrigin: true,
+      target: process.env.API_URL || "http://localhost:9000",
+      xfwd: true,
     },
   },
 

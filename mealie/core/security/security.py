@@ -6,11 +6,11 @@ from jose import jwt
 
 from mealie.core import root_logger
 from mealie.core.config import get_app_settings
+from mealie.core.security import ldap
 from mealie.core.security.hasher import get_hasher
 from mealie.core.security.jwt_validation import get_claims_from_jwt_assertion
 from mealie.db.models.users.users import AuthMethod
 from mealie.repos.all_repositories import get_repositories
-from mealie.repos.repository_factory import AllRepositories
 from mealie.schema.user import PrivateUser
 from mealie.services.user_services.user_service import UserService
 
@@ -43,7 +43,6 @@ def create_file_token(file_path: Path) -> str:
 def create_recipe_slug_token(file_path: str | Path) -> str:
     token_data = {"slug": str(file_path)}
     return create_access_token(token_data, expires_delta=timedelta(minutes=30))
-
 
 def user_from_ldap(db: AllRepositories, username: str, password: str) -> PrivateUser | bool:
     """Given a username and password, tries to authenticate by BINDing to an
@@ -202,7 +201,7 @@ def authenticate_user(session, email: str, password: str, jwt_assertion: str | N
     if not user:
         user = db.users.get_one(email, "username", any_case=True)
     if settings.LDAP_AUTH_ENABLED and (not user or user.password == "LDAP" or user.auth_method == AuthMethod.LDAP):
-        return user_from_ldap(db, email, password)
+        return ldap.get_user(db, email, password)
     if not user:
         # To prevent user enumeration we perform the verify_password computation to ensure
         # server side time is relatively constant and not vulnerable to timing attacks.
