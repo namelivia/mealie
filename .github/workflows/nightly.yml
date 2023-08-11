@@ -1,9 +1,9 @@
 name: Docker Nightly Production
 
 on:
-  push:
+  pull_request:
     branches:
-      - jwt_autentication_dockerhub
+      - jwt_authentication
 
 jobs:
   backend-tests:
